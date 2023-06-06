@@ -35,7 +35,7 @@ public class Product {
         return id;
     }
 
-    public void setIb(Long ib) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,6 +69,10 @@ public class Product {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 
     @Override

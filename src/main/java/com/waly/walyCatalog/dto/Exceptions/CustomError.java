@@ -1,4 +1,4 @@
-package com.waly.walyCatalog.controllers.Exceptions;
+package com.waly.walyCatalog.dto.Exceptions;
 
 import java.time.Instant;
 
