@@ -1,9 +1,12 @@
 package com.waly.walyCatalog.services;
 
+import com.waly.walyCatalog.Repositories.CategoryRepository;
 import com.waly.walyCatalog.Repositories.ProductRepository;
 import com.waly.walyCatalog.Repositories.ProductRepository;
+import com.waly.walyCatalog.dto.CategoryDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
+import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Product;
 import com.waly.walyCatalog.entities.Product;
 import com.waly.walyCatalog.services.Exceptions.DatabaseException;
@@ -23,6 +26,8 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll(){
@@ -72,10 +77,13 @@ public class ProductService {
 
     public Product setDto(Product prod, ProductDTO dto){
         prod.setName(dto.getName());
-        prod.setId(dto.getId());
         prod.setDescription(dto.getDescription());
         prod.setPrice(dto.getPrice());
         prod.setImgUrl(dto.getImgUrl());
+        for (CategoryDTO cat : dto.getCategories()){
+            Category category = categoryRepository.getReferenceById(cat.getId());
+            prod.addCategory(category);
+        }
         return prod;
     }
 }

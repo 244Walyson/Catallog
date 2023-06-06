@@ -75,6 +75,9 @@ public class Product {
         return categories;
     }
 
+    public void addCategory(Category category){
+        categories.add(category);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
