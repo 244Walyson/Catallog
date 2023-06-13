@@ -14,6 +14,8 @@ import com.waly.walyCatalog.services.Exceptions.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +32,9 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll(){
-        List<Product> result = repository.findAll();
-        return result.stream().map(ProductDTO::new).toList();
+    public Page<ProductDTO> findAll(Pageable pageable){
+        Page<Product> result = repository.findAll(pageable);
+        return result.map(ProductDTO::new);
     }
 
     @Transactional(readOnly = true)
