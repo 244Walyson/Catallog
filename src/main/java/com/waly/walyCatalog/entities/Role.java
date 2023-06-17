@@ -2,7 +2,9 @@ package com.waly.walyCatalog.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_role")
@@ -11,6 +13,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String authority;
+
+    @ManyToMany(mappedBy = "roles")
+    Set<User> users = new HashSet<>();
 
     public Role (){}
 

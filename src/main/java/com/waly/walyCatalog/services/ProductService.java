@@ -9,6 +9,7 @@ import com.waly.walyCatalog.dto.ProductDTO;
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Product;
 import com.waly.walyCatalog.entities.Product;
+import com.waly.walyCatalog.projections.ProductsProjection;
 import com.waly.walyCatalog.services.Exceptions.DatabaseException;
 import com.waly.walyCatalog.services.Exceptions.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -88,4 +90,9 @@ public class ProductService {
         }
         return prod;
     }
+
+//    @Transactional
+//    public Page<ProductsProjection> testQuery(Pageable pageable) {
+//        return repository.searchProducts(pageable, "", null);
+//    }
 }

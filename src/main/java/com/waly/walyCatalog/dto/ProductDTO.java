@@ -3,17 +3,27 @@ package com.waly.walyCatalog.dto;
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Product;
 import jakarta.persistence.Column;
+import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class ProductDTO {
     private Long id;
+    @NotBlank(message = "campo obrigatório")
     private String name;
+    @NotBlank(message = "campo obrigatório")
     private String description;
+    @Positive(message = "Preço deve ser um valor positivo")
     private Double price;
     private String imgUrl;
+    @PastOrPresent(message = "a data não pode ser data futura")
+    private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
 
@@ -86,5 +96,10 @@ public class ProductDTO {
 
     public void setCategories(List<CategoryDTO> categories) {
         this.categories = categories;
+    }
+
+    @PrePersist
+    private void setDate(){
+        date = Instant.now();
     }
 }
