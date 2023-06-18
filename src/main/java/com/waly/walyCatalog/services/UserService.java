@@ -3,10 +3,7 @@ package com.waly.walyCatalog.services;
 import com.waly.walyCatalog.Repositories.CategoryRepository;
 import com.waly.walyCatalog.Repositories.RoleRepository;
 import com.waly.walyCatalog.Repositories.UserRepository;
-import com.waly.walyCatalog.dto.CategoryDTO;
-import com.waly.walyCatalog.dto.RoleDTO;
-import com.waly.walyCatalog.dto.UserDTO;
-import com.waly.walyCatalog.dto.UserInsertDTO;
+import com.waly.walyCatalog.dto.*;
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Role;
 import com.waly.walyCatalog.entities.User;
@@ -56,7 +53,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(UserDTO dto, Long id) {
+    public UserDTO update(UserUpdateDTO dto, Long id) {
         try{
             User prod = repository.getReferenceById(id);
             setDto(prod, dto);

@@ -2,6 +2,7 @@ package com.waly.walyCatalog.controllers;
 
 import com.waly.walyCatalog.dto.UserDTO;
 import com.waly.walyCatalog.dto.UserInsertDTO;
+import com.waly.walyCatalog.dto.UserUpdateDTO;
 import com.waly.walyCatalog.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -41,10 +42,10 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO dto, @PathVariable Long id){
+    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserUpdateDTO dto, @PathVariable Long id){
         try {
-            dto = service.update(dto, id);
-            return ResponseEntity.ok(dto);
+            UserDTO newdto = service.update(dto, id);
+            return ResponseEntity.ok(newdto);
         }
         catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
