@@ -74,6 +74,14 @@ public class User {
     public Set<Role> getRoles() {
         return roles;
     }
+    public boolean hasRole(String roleName){
+        for(Role role : roles) {
+            if (role.getAuthority().equals(roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void setPassword(String password) {
         this.password = password;

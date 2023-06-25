@@ -47,6 +47,7 @@ public class ControllerExceptionHandler {
         err.setStatus(status.value());
         err.setError("Validation exception");
         err.setPath(request.getRequestURI());
+        err.setError(e.getMessage());
 
         for (FieldError f : e.getBindingResult().getFieldErrors()){
             err.addError(f.getField(), f.getDefaultMessage());
