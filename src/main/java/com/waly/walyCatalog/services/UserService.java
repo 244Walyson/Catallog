@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class UserService implements UserDetailsService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAll(Pageable pageable){
@@ -106,8 +107,7 @@ public class UserService implements UserDetailsService {
         user.setEmail(username);
         user.setPassword(result.get(0).getPassword());
         for (UserDetailsProjection projection : result){
-           Role role = roleRepository.getReferenceById(projection.getRoleId());
-            user.addRole(role);
+           user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
         }
         return user;
     }
