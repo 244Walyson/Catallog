@@ -54,6 +54,11 @@ public class UserService implements UserDetailsService {
     public UserDTO insert(UserInsertDTO dto){
         User user = new User();
         setDto(user, dto);
+
+        user.getRoles().clear();
+        Role role = roleRepository.findByAuthority("ROLE_OPERATOR");
+        user.getRoles().add(role);
+
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         repository.save(user);
         return new UserDTO(user);
@@ -112,8 +117,4 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-//    @Transactional
-//    public Page<UsersProjection> testQuery(Pageable pageable) {
-//        return repository.searchUsers(pageable, "", null);
-//    }
 }
