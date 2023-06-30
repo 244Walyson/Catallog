@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,17 +28,23 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-    @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
-        Page<ProductDTO> dto = service.findAll(pageable);
-        return ResponseEntity.ok().body(dto);
-    }
 //    @GetMapping
-//    public ResponseEntity<Page<ProductsProjection>> findAll(Pageable pageable)// @RequestParam(name = "name", defaultValue = "") String name/*){
-//    {
-//        Page<ProductsProjection> dto = service.testQuery(pageable);
+//    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
+//        Page<ProductDTO> dto = service.findAll(pageable);
 //        return ResponseEntity.ok().body(dto);
 //    }
+    @GetMapping
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable,
+                                                            @RequestParam(name = "name", defaultValue = "") String name,
+                                                            @RequestParam(value = "categoryid", defaultValue = "0") String categoryId){
+
+        List<Long> categoryIds = Arrays.asList();
+        if(!"0".equals(categoryId)){
+            categoryIds = Arrays.asList(categoryId.split(",")).stream().map(x -> Long.parseLong(x)).toList();
+        }
+        Page<ProductDTO> dto = service.findAllPaged(pageable, name, categoryIds);
+        return ResponseEntity.ok().body(dto);
+    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
         ProductDTO dto = service.findById(id);

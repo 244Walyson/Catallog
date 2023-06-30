@@ -16,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -91,8 +92,15 @@ public class ProductService {
         return prod;
     }
 
-//    @Transactional
-//    public Page<ProductsProjection> testQuery(Pageable pageable) {
-//        return repository.searchProducts(pageable, "", null);
-//    }
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAllPaged(Pageable pageable, String name, List<Long> ids) {
+    Page<ProductsProjection> page = repository.searchProducts(pageable,name, ids);
+    List<Long> productIds = page.map(x -> x.getId()).toList();
+    List<Product> products = repository.searchProductsWithCategories(productIds);
+    List<ProductDTO> productDTOS = products.stream().map(p -> new ProductDTO(p, p.getCategories())).toList();
+
+    Page<ProductDTO> pageDTO = new PageImpl<>(productDTOS, page.getPageable(), page.getTotalElements());
+    return pageDTO;
+    }
+
 }
