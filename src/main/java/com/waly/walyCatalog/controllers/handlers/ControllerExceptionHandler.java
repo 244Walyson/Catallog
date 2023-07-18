@@ -3,6 +3,7 @@ package com.waly.walyCatalog.controllers.handlers;
 import com.waly.walyCatalog.dto.Exceptions.CustomError;
 import com.waly.walyCatalog.dto.Exceptions.CustonErrorValidation;
 import com.waly.walyCatalog.services.Exceptions.DatabaseException;
+import com.waly.walyCatalog.services.Exceptions.EmailException;
 import com.waly.walyCatalog.services.Exceptions.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,16 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(status).body(err);
 
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<CustomError> emailException(EmailException e, HttpServletRequest request){
+        CustomError err = new CustomError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setError("email exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 }

@@ -33,8 +33,12 @@ INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 
 INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('alex', 'braba', 'alex@gmail.com', '$2a$10$UEZ2vq113Xh36U3XxtGE6uLlQ8Gx8V2u9OewzE/OUfMEiw1ymvQ.i');
 INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('maria', 'braba', 'maria@gmail.com', '$2a$10$UEZ2vq113Xh36U3XxtGE6uLlQ8Gx8V2u9OewzE/OUfMEiw1ymvQ.i');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('waly', 'test', 'projetoswaly@gmail.com', '$2a$10$UEZ2vq113Xh36U3XxtGE6uLlQ8Gx8V2u9OewzE/OUfMEiw1ymvQ.i');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('waly', 'test', 'walysonmoises1342@gmail.com', '$2a$10$UEZ2vq113Xh36U3XxtGE6uLlQ8Gx8V2u9OewzE/OUfMEiw1ymvQ.i');
+
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1,2);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2,1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2,2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3,2);
 

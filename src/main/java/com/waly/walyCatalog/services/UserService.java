@@ -25,12 +25,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -48,6 +52,12 @@ public class UserService implements UserDetailsService {
     public UserDTO findById(Long id){
       User dto = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return new UserDTO(dto);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findMe(){
+        User entity = authService.authenticated();
+        return new UserDTO(entity);
     }
 
     @Transactional

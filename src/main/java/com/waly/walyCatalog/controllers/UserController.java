@@ -3,6 +3,7 @@ package com.waly.walyCatalog.controllers;
 import com.waly.walyCatalog.dto.UserDTO;
 import com.waly.walyCatalog.dto.UserInsertDTO;
 import com.waly.walyCatalog.dto.UserUpdateDTO;
+import com.waly.walyCatalog.services.AuthService;
 import com.waly.walyCatalog.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -61,5 +62,11 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/profile")
+    public ResponseEntity<UserDTO> findMe(){
+        UserDTO dto = service.findMe();
+        return ResponseEntity.ok(dto);
     }
 }
