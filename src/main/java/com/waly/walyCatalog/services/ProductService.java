@@ -6,6 +6,7 @@ import com.waly.walyCatalog.Repositories.ProductRepository;
 import com.waly.walyCatalog.dto.CategoryDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
+import com.waly.walyCatalog.dto.UriDTO;
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Product;
 import com.waly.walyCatalog.entities.Product;
@@ -21,7 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +33,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private S3Service s3Service;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -103,4 +109,9 @@ public class ProductService {
     return pageDTO;
     }
 
+
+    public UriDTO uploadFile(MultipartFile file) {
+        URL url = s3Service.uploadFile(file);
+        return new UriDTO(url.toString());
+    }
 }

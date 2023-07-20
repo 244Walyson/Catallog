@@ -2,9 +2,11 @@ package com.waly.walyCatalog.controllers;
 
 import com.waly.walyCatalog.dto.ProductDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
+import com.waly.walyCatalog.dto.UriDTO;
 import com.waly.walyCatalog.projections.ProductsProjection;
 import com.waly.walyCatalog.services.Exceptions.NotFoundException;
 import com.waly.walyCatalog.services.ProductService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,7 +37,7 @@ public class ProductController {
 //        return ResponseEntity.ok().body(dto);
 //    }
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable,
+    public ResponseEntity<Page<ProductDTO>> findAll(@Parameter(hidden = true) Pageable pageable,
                                                             @RequestParam(name = "name", defaultValue = "") String name,
                                                             @RequestParam(value = "categoryid", defaultValue = "0") String categoryId){
 
@@ -76,5 +79,12 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping(value = "/image")
+    public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file){
+        UriDTO dto = service.uploadFile(file);
+        return ResponseEntity.ok().body(dto);
     }
 }

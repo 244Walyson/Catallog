@@ -3,6 +3,7 @@ package com.waly.walyCatalog.controllers;
 import com.waly.walyCatalog.dto.CategoryDTO;
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.services.CategoryService;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

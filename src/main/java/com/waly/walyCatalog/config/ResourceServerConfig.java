@@ -19,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+
 
 import java.util.Arrays;
 
@@ -29,6 +31,15 @@ public class ResourceServerConfig {
 
 	@Value("${cors.origins}")
 	private String corsOrigins;
+
+	private static final String[] SWAGGER = {
+			"/v2/api-docs",
+			"/configuration/ui",
+			"/swagger-resources/**",
+			"/configuration/security",
+			"/swagger-ui.html",
+			"/webjars/**"
+	};
 
 	@Bean
 	@Profile("test")
