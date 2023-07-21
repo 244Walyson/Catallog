@@ -1,8 +1,11 @@
 package com.waly.walyCatalog.services;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import com.waly.walyCatalog.Repositories.CategoryRepository;
 import com.waly.walyCatalog.Repositories.ProductRepository;
 import com.waly.walyCatalog.Repositories.ProductRepository;
+import com.waly.walyCatalog.controllers.ProductController;
 import com.waly.walyCatalog.dto.CategoryDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
 import com.waly.walyCatalog.dto.ProductDTO;
@@ -19,6 +22,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +48,8 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable){
         Page<Product> result = repository.findAll(pageable);
-        return result.map(ProductDTO::new);
+        return result.map(x -> new ProductDTO(x).add((Iterable<Link>) linkTo(methodOn(ProductController.class).findAll(null, null, null)).withSelfRel())
+                .add(linkTo(methodOn(ProductController.class).findById(x.getId())).withRel("Get Product by id")));
     }
 
     @Transactional(readOnly = true)

@@ -7,13 +7,14 @@ import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ProductDTO {
+public class ProductDTO extends RepresentationModel<ProductDTO> {
     private Long id;
     @NotBlank(message = "campo obrigatório")
     private String name;

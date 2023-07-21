@@ -87,4 +87,5 @@ public class ProductController {
         UriDTO dto = service.uploadFile(file);
         return ResponseEntity.ok().body(dto);
     }
+
 }
