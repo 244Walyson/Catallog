@@ -68,9 +68,10 @@ public class ProductService {
         Product prod = new Product();
         setDto(prod, dto);
         repository.save(prod);
-        return new ProductDTO(prod).add(linkTo(methodOn(ProductController.class).findById(dto.getId())).withRel("GET - product by id"))
-                .add(linkTo(methodOn(ProductController.class).findAll(null, null,null)).withRel("GET - Products"))
-                .add(linkTo(methodOn(ProductController.class).delete(dto.getId())).withRel("DELETE - Product"));
+        return new ProductDTO(prod).add(linkTo(methodOn(ProductController.class).findById(null)).withSelfRel())
+                .add(linkTo(methodOn(ProductController.class).findAll(null, null, null)).withRel("GET - Products"))
+                .add(linkTo(methodOn(ProductController.class).update(null, null)).withRel("PUT - Update product"))
+                .add(linkTo(methodOn(ProductController.class).delete(null)).withRel("DELETE - Delete product"));
     }
 
     @Transactional
@@ -79,7 +80,10 @@ public class ProductService {
             Product prod = repository.getReferenceById(id);
             setDto(prod, dto);
             repository.save(prod);
-            return new ProductDTO(prod);
+            return new ProductDTO(prod).add(linkTo(methodOn(ProductController.class).findById(id)).withSelfRel())
+                    .add(linkTo(methodOn(ProductController.class).findAll(null, null, null)).withRel("GET - Products"))
+                    .add(linkTo(methodOn(ProductController.class).update(null, id)).withRel("PUT - Update product"))
+                    .add(linkTo(methodOn(ProductController.class).delete(id)).withRel("DELETE - Delete product"));
         }
         catch (EntityNotFoundException e){
             throw new NotFoundException("id not found");
@@ -119,7 +123,10 @@ public class ProductService {
     List<ProductDTO> productDTOS = products.stream().map(p -> new ProductDTO(p, p.getCategories())).toList();
 
     Page<ProductDTO> pageDTO = new PageImpl<>(productDTOS, page.getPageable(), page.getTotalElements());
-    return pageDTO;
+    return pageDTO.map(x -> x.add(linkTo(methodOn(ProductController.class).findAll(null, null, null)).withSelfRel())
+            .add(linkTo(methodOn(ProductController.class).insert(null)).withRel("POST - new product"))
+            .add(linkTo(methodOn(ProductController.class).findById(null)).withRel("GET - product by id"))
+            .add(linkTo(methodOn(ProductController.class).delete(null)).withRel("DELETE - delete by id")));
     }
 
 
