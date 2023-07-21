@@ -2,7 +2,6 @@ package com.waly.walyCatalog.dto;
 
 import com.waly.walyCatalog.entities.Category;
 import com.waly.walyCatalog.entities.Product;
-import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;

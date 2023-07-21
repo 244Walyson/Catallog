@@ -48,14 +48,19 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable){
         Page<Product> result = repository.findAll(pageable);
-        return result.map(x -> new ProductDTO(x).add((Iterable<Link>) linkTo(methodOn(ProductController.class).findAll(null, null, null)).withSelfRel())
-                .add(linkTo(methodOn(ProductController.class).findById(x.getId())).withRel("Get Product by id")));
+        return result.map(x -> new ProductDTO(x)
+                .add(linkTo(methodOn(ProductController.class).findAll(null, null, null)).withRel("GET - Movies")));
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
       Product dto = repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-        return new ProductDTO(dto, dto.getCategories());
+        return new ProductDTO(dto, dto.getCategories())
+
+                .add(linkTo(methodOn(ProductController.class).findById(id)).withSelfRel())
+                .add(linkTo(methodOn(ProductController.class).findAll(null, null, null)).withRel("GET - Products"))
+                .add(linkTo(methodOn(ProductController.class).update(null, id)).withRel("PUT - Update product"))
+                .add(linkTo(methodOn(ProductController.class).delete(id)).withRel("DELETE - Delete product"));
     }
 
     @Transactional
@@ -63,7 +68,9 @@ public class ProductService {
         Product prod = new Product();
         setDto(prod, dto);
         repository.save(prod);
-        return new ProductDTO(prod);
+        return new ProductDTO(prod).add(linkTo(methodOn(ProductController.class).findById(dto.getId())).withRel("GET - product by id"))
+                .add(linkTo(methodOn(ProductController.class).findAll(null, null,null)).withRel("GET - Products"))
+                .add(linkTo(methodOn(ProductController.class).delete(dto.getId())).withRel("DELETE - Product"));
     }
 
     @Transactional

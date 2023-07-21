@@ -1,5 +1,7 @@
 package com.waly.walyCatalog.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -19,10 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -31,15 +29,6 @@ public class ResourceServerConfig {
 
 	@Value("${cors.origins}")
 	private String corsOrigins;
-
-	private static final String[] SWAGGER = {
-			"/v2/api-docs",
-			"/configuration/ui",
-			"/swagger-resources/**",
-			"/configuration/security",
-			"/swagger-ui.html",
-			"/webjars/**"
-	};
 
 	@Bean
 	@Profile("test")
@@ -56,7 +45,7 @@ public class ResourceServerConfig {
 	public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(csrf -> csrf.disable());
-		http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+		http.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll());
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		return http.build();

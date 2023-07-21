@@ -46,6 +46,8 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Acce
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.web.SecurityFilterChain;
+
+
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -64,10 +66,10 @@ public class AuthorizationServerConfig {
 	private Integer jwtDurationSeconds;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private UserDetailsService userDetailsService;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private PasswordEncoder passwordEncoder;
 
 	@Bean
 	@Order(2)
