@@ -19,3 +19,179 @@ O projeto **walyCatallog** é um catálogo de produtos que tem como principal ob
 ## Tecnologias Utilizadas:
 
 O projeto foi desenvolvido utilizando a tecnologia Java Spring, fazendo uso de diversas tecnologias do ecossistema Spring, incluindo Spring Data JPA, Spring Security e Spring MVC. Além disso, a solução AWS S3 foi empregada para o armazenamento das imagens dos produtos.
+
+## Modelo conceitual do projeto:
+
+![image](https://github.com/244Walyson/walyCatallog/assets/125759796/c136ae82-bb29-44c9-b47a-de138f9df883)
+
+# endpoints da apicação:
+
+# Login
+**Endpoint:** `/oauth2/token`
+**Method:** POST
+
+# User Controller
+
+## Get All Users
+
+- **Endpoint:** `/users`
+- **Method:** GET
+- **Authorization:** Requires ROLE_ADMIN role
+- **Query Parameters:** 
+  - pageable: Page number and size
+- **Response:** `Page<UserDTO>`
+
+## Get User by ID
+
+- **Endpoint:** `/users/{id}`
+- **Method:** GET
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: User ID
+- **Response:** `UserDTO`
+
+## Insert New User
+
+- **Endpoint:** `/users`
+- **Method:** POST
+- **Request Body:** `UserInsertDTO`
+- **Response:** `UserDTO`
+
+## Update User
+
+- **Endpoint:** `/users/{id}`
+- **Method:** PUT
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: User ID
+- **Request Body:** `UserUpdateDTO`
+- **Response:** `UserDTO`
+
+## Delete User
+
+- **Endpoint:** `/users/{id}`
+- **Method:** DELETE
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: User ID
+- **Response:** No content
+
+## Get Current User Profile
+
+- **Endpoint:** `/users/profile`
+- **Method:** GET
+- **Response:** `UserDTO`
+
+# User Auth Controller
+
+## Create Recover Token
+
+- **Endpoint:** `/auth/recover-token`
+- **Method:** POST
+- **Request Body:** `EmailDTO`
+- **Response:** No content
+
+## Save New Password
+
+- **Endpoint:** `/auth/new-password`
+- **Method:** PUT
+- **Request Body:** `NewPasswordDTO`
+- **Response:** No content
+
+# Product Controller
+
+## Get All Products
+
+- **Endpoint:** `/products`
+- **Method:** GET
+- **Query Parameters:**
+  - pageable: Page number and size
+  - name: Product name (optional)
+  - categoryid: Category IDs (optional, comma-separated)
+- **Response:** `Page<ProductDTO>`
+
+## Get Product by ID
+
+- **Endpoint:** `/products/{id}`
+- **Method:** GET
+- **Path Parameters:**
+  - id: Product ID
+- **Response:** `ProductDTO`
+
+## Insert New Product
+
+- **Endpoint:** `/products`
+- **Method:** POST
+- **Authorization:** Requires ROLE_ADMIN role
+- **Request Body:** `ProductDTO`
+- **Response:** `ProductDTO`
+
+## Update Product
+
+- **Endpoint:** `/products/{id}`
+- **Method:** PUT
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: Product ID
+- **Request Body:** `ProductDTO`
+- **Response:** `ProductDTO`
+
+## Delete Product
+
+- **Endpoint:** `/products/{id}`
+- **Method:** DELETE
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: Product ID
+- **Response:** No content
+
+## Upload Product Image
+
+- **Endpoint:** `/products/image`
+- **Method:** POST
+- **Authorization:** Requires ROLE_ADMIN role
+- **Request Body:** Image file (multipart/form-data)
+- **Response:** `UriDTO`
+
+# Category Controller
+
+## Get All Categories
+
+- **Endpoint:** `/categories`
+- **Method:** GET
+- **Response:** List of `CategoryDTO`
+
+## Get Category by ID
+
+- **Endpoint:** `/categories/{id}`
+- **Method:** GET
+- **Path Parameters:**
+  - id: Category ID
+- **Response:** `CategoryDTO`
+
+## Insert New Category
+
+- **Endpoint:** `/categories`
+- **Method:** POST
+- **Authorization:** Requires ROLE_ADMIN role
+- **Request Body:** `CategoryDTO`
+- **Response:** `CategoryDTO`
+
+## Update Category
+
+- **Endpoint:** `/categories/{id}`
+- **Method:** PUT
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: Category ID
+- **Request Body:** `CategoryDTO`
+- **Response:** `CategoryDTO`
+
+## Delete Category
+
+- **Endpoint:** `/categories/{id}`
+- **Method:** DELETE
+- **Authorization:** Requires ROLE_ADMIN role
+- **Path Parameters:**
+  - id: Category ID
+- **Response:** No content
