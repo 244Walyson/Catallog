@@ -195,3 +195,11 @@ O projeto foi desenvolvido utilizando a tecnologia Java Spring, fazendo uso de d
 - **Path Parameters:**
   - id: Category ID
 - **Response:** No content
+
+# Para rodar a aplicação, siga os passos abaixo:
+
+1. Clone o repositório: `git clone https://github.com/244Walyson/walyCatallog.git`
+2. Acesse o diretório do projeto: `cd walyCatallog`
+3. Execute a aplicação: `./mvnw spring-boot:run`
+
+A aplicação estará disponível em `http://localhost:8080`. Certifique-se de ter o Java e o Maven instalados em seu sistema antes de executar os passos acima.
